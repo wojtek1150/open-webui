@@ -525,6 +525,33 @@
 					? 'max-w-full'
 					: 'max-w-6xl'} px-2.5 mx-auto inset-x-0"
 			>
+				<div class="flex items-center gap-4 mb-4 pt-4">
+					<select class="bg-gray-600/5 dark:bg-gray-400/5 dark:text-gray-100 rounded-2xl px-6 py-3 w-62">
+						<option value="">Select option 1</option>
+						<option value="1">Option 1</option>
+						<option value="2">Option 2</option>
+						<option value="3">Option 3</option>
+					</select>
+
+					<select class="bg-gray-600/5 dark:bg-gray-400/5 dark:text-gray-100 rounded-2xl px-6 py-3 w-62">
+						<option value="">Select option 2</option>
+						<option value="1">Option 1</option>
+						<option value="2">Option 2</option>
+						<option value="3">Option 3</option>
+					</select>
+
+					<div class="flex items-center gap-2 ml-auto">
+						<input 
+							type="date"
+							class="bg-gray-600/5 dark:bg-gray-400/5 dark:text-gray-100 rounded-2xl px-6 py-3 [&::-webkit-calendar-picker-indicator]:invert-[1]"
+						>
+						<span class="text-sm text-gray-600 dark:text-gray-400">to</span>
+						<input 
+							type="date"
+							class="bg-gray-600/5 dark:bg-gray-400/5 dark:text-gray-100 rounded-2xl px-6 py-3 [&::-webkit-calendar-picker-indicator]:invert-[1]"
+						>
+					</div>
+				</div>
 				<div class="">
 					<input
 						bind:this={filesInputElement}

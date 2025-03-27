@@ -7,8 +7,8 @@
 	import markedKatexExtension from '$lib/utils/marked/katex-extension';
 
 	import MarkdownTokens from './Markdown/MarkdownTokens.svelte';
-	import { createEventDispatcher } from 'svelte';
-
+	import { createEventDispatcher, onMount } from 'svelte';
+	import DOMPurify from 'dompurify';
 	const dispatch = createEventDispatcher();
 
 	export let id;
@@ -29,6 +29,13 @@
 
 	marked.use(markedKatexExtension(options));
 	marked.use(markedExtension(options));
+
+
+
+	onMount(() => {
+		console.log('Markdown mounted', tokens, content,  DOMPurify.sanitize(content));
+		console.log('sanitized -----', DOMPurify.sanitize(content), '-----');
+	});
 
 	$: (async () => {
 		if (content) {

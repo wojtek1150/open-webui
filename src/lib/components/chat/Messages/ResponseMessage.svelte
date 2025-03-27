@@ -517,6 +517,7 @@
 
 	onMount(async () => {
 		// console.log('ResponseMessage mounted');
+		console.log('message', message);
 
 		await tick();
 		if (buttonsContainerElement) {

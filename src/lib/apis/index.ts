@@ -1,4 +1,4 @@
-import { WEBUI_API_BASE_URL, WEBUI_BASE_URL } from '$lib/constants';
+import { WEBUI_BASE_URL } from '$lib/constants';
 import { getOpenAIModelsDirect } from './openai';
 
 export const getModels = async (
@@ -671,7 +671,7 @@ export const getPipelinesList = async (token: string = '') => {
 		throw error;
 	}
 
-	let pipelines = res?.data ?? [];
+	const pipelines = res?.data ?? [];
 	return pipelines;
 };
 
@@ -814,7 +814,7 @@ export const getPipelines = async (token: string, urlIdx?: string) => {
 		throw error;
 	}
 
-	let pipelines = res?.data ?? [];
+	const pipelines = res?.data ?? [];
 	return pipelines;
 };
 

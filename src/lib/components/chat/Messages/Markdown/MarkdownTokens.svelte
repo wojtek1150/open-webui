@@ -1,6 +1,6 @@
 <script lang="ts">
 	import DOMPurify from 'dompurify';
-	import { createEventDispatcher, onMount, getContext } from 'svelte';
+	import { createEventDispatcher, getContext } from 'svelte';
 	const i18n = getContext('i18n');
 
 	import fileSaver from 'file-saver';
@@ -19,6 +19,7 @@
 	import ArrowDownTray from '$lib/components/icons/ArrowDownTray.svelte';
 	import Source from './Source.svelte';
 	import File from '../CustomRenderers/File.svelte';
+	import Files from '../CustomRenderers/Files.svelte';
 	const dispatch = createEventDispatcher();
 
 	export let id: string;
@@ -258,9 +259,11 @@
 		</Collapsible>
 	{:else if token.type === 'html'}
 		{@const html = DOMPurify.sanitize(token.text)}
-		{#if html && token.text.includes('<file')}
+		{#if html && token.text.includes('<files')}
+			<Files html={token.text} />
+		{:else if html && token.text.includes('<file')}
 			<File html={token.text} />
-		{:else if html}
+		{:else if html && html.includes('<video')}
 			{@html html}
 		{:else if token.text.includes(`<iframe src="${WEBUI_BASE_URL}/api/v1/files/`)}
 			{@html `${token.text}`}

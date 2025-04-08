@@ -526,29 +526,29 @@
 					: 'max-w-6xl'} px-2.5 mx-auto inset-x-0"
 			>
 				<div class="flex items-center gap-4 mb-4 pt-4">
-					<select class="bg-gray-600/5 dark:bg-gray-400/5 dark:text-gray-100 rounded-2xl px-6 py-3 w-62">
-						<option value="">Select option 1</option>
-						<option value="1">Option 1</option>
-						<option value="2">Option 2</option>
-						<option value="3">Option 3</option>
-					</select>
-
-					<select class="bg-gray-600/5 dark:bg-gray-400/5 dark:text-gray-100 rounded-2xl px-6 py-3 w-62">
-						<option value="">Select option 2</option>
-						<option value="1">Option 1</option>
-						<option value="2">Option 2</option>
-						<option value="3">Option 3</option>
-					</select>
+					<div class="flex items-center gap-2">
+						<label for="doc-type" class="text-sm text-gray-600 dark:text-gray-400">Typ dokumentu:</label>
+						<select id="doc-type" class="bg-gray-600/5 dark:bg-gray-400/5 dark:text-gray-100 rounded-2xl px-6 py-3 w-62">
+							<option value="0">Wszystkie</option>
+							<option value="1">PDF</option>
+							<option value="2">DOCX</option>
+							<option value="3">TXT</option>
+							<option value="4">XLSX</option>
+						</select>
+					</div>
 
 					<div class="flex items-center gap-2 ml-auto">
+						<span class="text-sm text-gray-600 dark:text-gray-400">Aktualizowany od:</span>
 						<input 
 							type="date"
-							class="bg-gray-600/5 dark:bg-gray-400/5 dark:text-gray-100 rounded-2xl px-6 py-3 [&::-webkit-calendar-picker-indicator]:invert-[1]"
+							class="bg-gray-600/5 dark:bg-gray-400/5 dark:text-gray-100 rounded-2xl px-6 py-3"
+							value={new Date(new Date().setFullYear(new Date().getFullYear() - 3)).toISOString().split('T')[0]}
 						>
-						<span class="text-sm text-gray-600 dark:text-gray-400">to</span>
+						<span class="text-sm text-gray-600 dark:text-gray-400">od</span>
 						<input 
 							type="date"
-							class="bg-gray-600/5 dark:bg-gray-400/5 dark:text-gray-100 rounded-2xl px-6 py-3 [&::-webkit-calendar-picker-indicator]:invert-[1]"
+							class="bg-gray-600/5 dark:bg-gray-400/5 dark:text-gray-100 rounded-2xl px-6 py-3"
+							value={new Date().toISOString().split('T')[0]}
 						>
 					</div>
 				</div>

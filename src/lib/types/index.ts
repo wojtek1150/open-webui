@@ -1,3 +1,5 @@
+import type { Token } from "marked";
+
 export type Banner = {
 	id: string;
 	type: string;
@@ -13,3 +15,15 @@ export enum TTS_RESPONSE_SPLIT {
 	PARAGRAPHS = 'paragraphs',
 	NONE = 'none'
 }
+
+export type FileData = {
+	name: string;
+	size: string;
+	type: string;
+	content: string;
+	link: string;
+	details: {
+		text: string;
+		tokens: Token[];
+	};
+};

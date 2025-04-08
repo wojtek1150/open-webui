@@ -521,7 +521,6 @@
 
 		await tick();
 		if (buttonsContainerElement) {
-			console.log(buttonsContainerElement);
 			buttonsContainerElement.addEventListener('wheel', function (event) {
 				// console.log(event.deltaY);
 

@@ -46,7 +46,7 @@
 	import Photo from '../icons/Photo.svelte';
 	import CommandLine from '../icons/CommandLine.svelte';
 	import { KokoroWorker } from '$lib/workers/KokoroWorker';
-
+	import { DocumentType, DocumentTypeOptions } from '$lib/types';
 	const i18n = getContext('i18n');
 
 	export let transparentBackground = false;
@@ -74,12 +74,19 @@
 	export let webSearchEnabled = false;
 	export let codeInterpreterEnabled = false;
 
+	let docType = DocumentType.ALL; // Default to ALL
+	let dateFrom = new Date(new Date().setFullYear(new Date().getFullYear() - 3)).toISOString().split('T')[0];
+	let dateTo = new Date().toISOString().split('T')[0];
+
 	$: onChange({
 		prompt,
 		files,
 		selectedToolIds,
 		imageGenerationEnabled,
-		webSearchEnabled
+		webSearchEnabled,
+		docType,
+		dateFrom,
+		dateTo
 	});
 
 	let loaded = false;
@@ -528,12 +535,10 @@
 				<div class="flex items-center gap-4 mb-4 pt-4">
 					<div class="flex items-center gap-2">
 						<label for="doc-type" class="text-sm text-gray-600 dark:text-gray-400">Typ dokumentu:</label>
-						<select id="doc-type" class="bg-gray-600/5 dark:bg-gray-400/5 dark:text-gray-100 rounded-2xl px-6 py-3 w-62">
-							<option value="0">Wszystkie</option>
-							<option value="1">PDF</option>
-							<option value="2">DOCX</option>
-							<option value="3">TXT</option>
-							<option value="4">XLSX</option>
+						<select id="doc-type" class="bg-gray-600/5 dark:bg-gray-400/5 dark:text-gray-100 rounded-2xl px-6 py-3 w-62" bind:value={docType}>
+							{#each Object.entries(DocumentTypeOptions) as [key, label]}
+								<option value={key}>{label}</option>
+							{/each}
 						</select>
 					</div>
 
@@ -542,13 +547,13 @@
 						<input 
 							type="date"
 							class="bg-gray-600/5 dark:bg-gray-400/5 dark:text-gray-100 rounded-2xl px-6 py-3"
-							value={new Date(new Date().setFullYear(new Date().getFullYear() - 3)).toISOString().split('T')[0]}
+							bind:value={dateFrom}
 						>
 						<span class="text-sm text-gray-600 dark:text-gray-400">od</span>
 						<input 
 							type="date"
 							class="bg-gray-600/5 dark:bg-gray-400/5 dark:text-gray-100 rounded-2xl px-6 py-3"
-							value={new Date().toISOString().split('T')[0]}
+							bind:value={dateTo}
 						>
 					</div>
 				</div>

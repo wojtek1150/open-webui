@@ -27,3 +27,22 @@ export type FileData = {
 		tokens: Token[];
 	};
 };
+
+export enum DocumentType {
+	ALL = 'ALL',
+	PDF = 'PDF',
+	DOCX = 'DOCX',
+	TXT = 'TXT',
+	HTML = 'HTML'
+}
+
+export type DocumentTypeRecord = Record<DocumentType, string>;
+
+export const DocumentTypeOptions: DocumentTypeRecord = {
+	[DocumentType.ALL]: 'Wszystkie',
+	[DocumentType.PDF]: 'PDF',
+	[DocumentType.DOCX]: 'DOCX',
+	[DocumentType.TXT]: 'TXT',
+	[DocumentType.HTML]: 'HTML'
+};
+

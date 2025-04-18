@@ -32,6 +32,9 @@
 
 	export let prompt = '';
 	export let files = [];
+	export let docType = '';
+	export let dateFrom = '';
+	export let dateTo = '';
 
 	export let selectedToolIds = [];
 	export let imageGenerationEnabled = false;
@@ -190,6 +193,9 @@
 					{selectedModels}
 					bind:files
 					bind:prompt
+					bind:docType
+					bind:dateFrom
+					bind:dateTo
 					bind:autoScroll
 					bind:selectedToolIds
 					bind:imageGenerationEnabled
@@ -200,6 +206,11 @@
 					{stopResponse}
 					{createMessagePair}
 					placeholder={$i18n.t('How can I help you today?')}
+					onChange={(input) => {
+						docType = input.docType;
+						dateFrom = input.dateFrom;
+						dateTo = input.dateTo;
+					}}
 					on:upload={(e) => {
 						dispatch('upload', e.detail);
 					}}

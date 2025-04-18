@@ -85,7 +85,7 @@
 	import Placeholder from './Placeholder.svelte';
 	import NotificationToast from '../NotificationToast.svelte';
 	import Spinner from '../common/Spinner.svelte';
-
+	import { DocumentType } from '$lib/types';
 	export let chatIdProp = '';
 
 	let loading = false;
@@ -134,6 +134,9 @@
 	let chatFiles = [];
 	let files = [];
 	let params = {};
+	let docType = DocumentType.ALL;
+	let dateFrom = '';
+	let dateTo = '';
 
 	$: if (chatIdProp) {
 		(async () => {
@@ -173,6 +176,28 @@
 
 	$: if (selectedModels && chatIdProp !== '') {
 		saveSessionSelectedModels();
+	}
+
+	const createPromptyWithAdditionalInfo = (prompt: string): string => {
+		let additionalInfo = '';
+		
+		if (docType !== DocumentType.ALL) {
+			additionalInfo += `\nTyp dokumentu: ${docType}`;
+		}
+
+		if (dateFrom) {
+			additionalInfo += `\nData od: ${dateFrom}`;
+		}
+
+		if (dateTo) {
+			additionalInfo += `\nData do: ${dateTo}`; 
+		}
+
+		if (additionalInfo) {
+			return `${prompt}\n\nDodatkowe parametry wyszukiwania:${additionalInfo}`;
+		}
+
+		return prompt;
 	}
 
 	const saveSessionSelectedModels = () => {
@@ -1303,6 +1328,11 @@
 			childrenIds: [],
 			role: 'user',
 			content: userPrompt,
+			additionalInfo: {
+				docType: docType,
+				dateFrom: dateFrom,
+				dateTo: dateTo
+			},
 			files: _files.length > 0 ? _files : undefined,
 			timestamp: Math.floor(Date.now() / 1000), // Unix epoch
 			models: selectedModels
@@ -1355,6 +1385,11 @@
 					childrenIds: [],
 					role: 'assistant',
 					content: '',
+					additionalInfo: {
+						docType: docType,
+						dateFrom: dateFrom,
+						dateTo: dateTo
+					},
 					model: model.id,
 					modelName: model.name ?? model.id,
 					modelIdx: modelIdx ? modelIdx : _modelIdx,
@@ -1510,13 +1545,14 @@
 				: undefined,
 			...createMessagesList(_history, responseMessageId).map((message) => ({
 				...message,
-				content: removeDetails(message.content, ['reasoning', 'code_interpreter'])
+				content: removeDetails(message.content, ['reasoning', 'code_interpreter']),
 			}))
 		].filter((message) => message);
 
 		messages = messages
 			.map((message, idx, arr) => ({
 				role: message.role,
+				additionalInfo: responseMessage?.additionalInfo,
 				...((message.files?.filter((file) => file.type === 'image').length > 0 ?? false) &&
 				message.role === 'user'
 					? {
@@ -2025,6 +2061,9 @@
 								{selectedModels}
 								bind:files
 								bind:prompt
+								bind:docType
+								bind:dateFrom
+								bind:dateTo
 								bind:autoScroll
 								bind:selectedToolIds
 								bind:imageGenerationEnabled
@@ -2040,6 +2079,9 @@
 									} else {
 										localStorage.removeItem(`chat-input-${$chatId}`);
 									}
+									docType = input.docType;
+									dateFrom = input.dateFrom;
+									dateTo = input.dateTo;
 								}}
 								on:upload={async (e) => {
 									const { type, data } = e.detail;
@@ -2077,6 +2119,9 @@
 								{selectedModels}
 								bind:files
 								bind:prompt
+								bind:docType
+								bind:dateFrom
+								bind:dateTo
 								bind:autoScroll
 								bind:selectedToolIds
 								bind:imageGenerationEnabled
@@ -2086,6 +2131,11 @@
 								transparentBackground={$settings?.backgroundImageUrl ?? false}
 								{stopResponse}
 								{createMessagePair}
+								onChange={(input) => {
+									docType = input.docType;
+									dateFrom = input.dateFrom;
+									dateTo = input.dateTo;
+								}}
 								on:upload={async (e) => {
 									const { type, data } = e.detail;
 
